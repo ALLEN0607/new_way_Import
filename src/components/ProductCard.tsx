@@ -1,21 +1,38 @@
-import Link from "next/link";
+"use client";
+
 import Image from "next/image";
-import { Product } from "@/data/products";
 
-export default function ProductCard({ p }: { p: Product }) {
+type Product = {
+  title: string;
+  img?: string;         // 推荐统一用 img
+  image?: string;       // 兼容旧字段
+};
+
+type CardProps = {
+  p: Product;
+};
+
+export default function ProductCard({ p }: CardProps) {
+  // ① 优选 p.img → ② 兼容 p.image → ③ 如果都没有，用占位图
+  const imgSrc =
+    p.img?.trim() || p.image?.trim() || "/images/placeholder.jpg";
+
   return (
-    <Link
-      href={`/products/${p.slug}`}
-      className="rounded-2xl shadow hover:shadow-lg transition block overflow-hidden"
-    >
+    <div className="group relative overflow-hidden rounded-xl">
+      {/* 图片区域，高度用 padding trick 保持 70% 比例 */}
       <div className="relative pb-[70%]">
-        <Image src={p.image} alt={p.name} fill className="object-cover" />
+        <Image
+          src={imgSrc}
+          alt={p.title}
+          fill
+          className="object-cover duration-300 group-hover:scale-105"
+        />
       </div>
 
-      <div className="p-4 space-y-1 bg-white">
-        <h3 className="font-semibold">{p.name}</h3>
-        <p className="text-xs text-gray-500">{p.origin}</p>
+      {/* 文本区域 */}
+      <div className="space-y-1 bg-white p-4">
+        <h3 className="font-medium">{p.title}</h3>
       </div>
-    </Link>
+    </div>
   );
 }
