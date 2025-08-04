@@ -2,7 +2,10 @@ import { products } from "@/data/products";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-type Props = { params: { slug: string } };
+type Props = {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined }; // ← 新增，可写 any
+};
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
