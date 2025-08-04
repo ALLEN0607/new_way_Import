@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { type Metadata } from "next";
 import Image from "next/image";
 import { products } from "@/data/products";
-
+// 2025-08-04 build fix
 /* ---- 可选字段 Product 类型 ---- */
 type Product = {
   slug: string;
